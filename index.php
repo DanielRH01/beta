@@ -6,39 +6,47 @@
     <title>Mi CRUD</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
-<body>
-    <h1 class="text-center p-3">Hola Mundo</h1>     
+<body>     
     <div class="container-fluid row">
-        <form class="col-3 p-4 border border-2 rounded" action="insert.php" method="post">
+        <form class="col-3 p-4 border border-2 rounded" method="post">
+            <?php //Incluimos la conexión a la base de datos y el controlador que registra a la persona para validar los campos del formulario
+                include('model/connect.php');
+                include('controller/register_person.php');
+            ?>
             <h4 class="text-center p-3">Registro</h4>
+
+
             <!-- NOMBRE DE USUARIO -->
             <div class="mb-3">
                 <label for="Name" class="form-label">Nombre</label>
-                <input type="text" class="form-control" id="name" placeholder="Escribe tu nombre">
+                <input type="text" class="form-control" name="Name" placeholder="Escribe tu nombre">
             </div>
             <!-- APELLIDOS DE USUARIO -->
             <div class="mb-3">
                 <label for="LastName" class="form-label">Apellidos</label>
-                <input type="text" class="form-control" id="LastName" placeholder="Escribe tus apellidos">
+                <input type="text" class="form-control" name="LastName" placeholder="Escribe tus apellidos">
             </div>
             <!-- DNI DE USUARIO -->
             <div class="mb-3">
                 <label for="DNI" class="form-label">DNI</label>
-                <input type="text" class="form-control" id="DNI" placeholder="Escribe tu DNI">
+                <input type="text" class="form-control" name="DNI" placeholder="Escribe tu DNI">
             </div>
             <!-- EMAIL DE USUARIO -->
             <div class="mb-3">
                 <label for="Email" class="form-label">Email address</label>
-                <input type="email" class="form-control" id="Email" aria-describedby="emailHelp">
+                <input type="email" class="form-control" name="Email" aria-describedby="emailHelp">
             </div>
             <!-- FECHA DE NACIMIENTO DE USUARIO  -->
             <div class="mb-3">
                 <label for="Date" class="form-label">Fecha de nacimiento</label>
-                <input type="date" class="form-control" id="Date">
+                <input type="date" class="form-control" name="Date">
             </div>
             <!-- BOTON DE ENVIAR -->
-            <button type="submit" class="btn btn-primary" value="OK">Registrar</button>
+            <button type="submit" class="btn btn-primary" value="ok" name="bttmregister">Registrar</button>
         </form>
+        
+        
+        
         <div class="col-9 p-4">
             <!-- ESPACIO ENTRE FORMULARIO Y TABLA -->
             <table class="table ">
