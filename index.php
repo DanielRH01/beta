@@ -9,9 +9,9 @@
 <body>     
     <div class="container-fluid row">
         <form class="col-3 p-4 border border-2 rounded" method="post">
-            <?php //Incluimos la conexión a la base de datos y el controlador que registra a la persona para validar los campos del formulario
+            <?php //Incluimos la conexión a la base de datos y el controlador que registra y elimina a la persona para validar los campos del formulario
                 include('model/connect.php');
-                include('controller/register_person.php');
+                include('controller/controller_register_person.php');
             ?>
             <h4 class="text-center p-3">Registro</h4>
 
@@ -47,7 +47,7 @@
         
         
         
-        <div class="col-9 p-4">
+        <div class="col-9 p-2">
             <!-- ESPACIO ENTRE FORMULARIO Y TABLA -->
             <table class="table ">
                 <thead class="table-dark">
@@ -74,8 +74,13 @@
                                     <td><?= $datos->us_email ?></td>
                                     <td><?= $datos->us_date ?></td>
                                     <td>
-                                        <a href="#" class="btn btn-warning">Editar</a>
-                                        <a href="#" class="btn btn-danger">Eliminar</a>
+                                        <a href="modify_person.php?id=<?= $datos->us_id; ?>" class="btn btn-warning">Editar</a>
+                                        
+                                        <a href="controller/controller_delete_person.php?id=<?= $datos->us_id; ?>" 
+                                            onclick="return confirm('¿Estás seguro de eliminar este registro?');"
+                                            class="btn btn-danger">
+                                            Eliminar
+                                        </a>
                                 </tr>
                             <?php
                                 }
