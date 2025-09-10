@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi CRUD</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
 <body>     
@@ -74,12 +75,12 @@
                                     <td><?= $datos->us_email ?></td>
                                     <td><?= $datos->us_date ?></td>
                                     <td>
-                                        <a href="modify_person.php?id=<?= $datos->us_id; ?>" class="btn btn-warning">Editar</a>
+                                        <a href="modify_person.php?id=<?= $datos->us_id; ?>" class="btn btn-warning"><i class="fa-solid fa-user-pen"></i></a>
                                         
                                         <a href="controller/controller_delete_person.php?id=<?= $datos->us_id; ?>" 
                                             onclick="return confirm('¿Estás seguro de eliminar este registro?');"
                                             class="btn btn-danger">
-                                            Eliminar
+                                            <i class="fa-solid fa-user-minus"></i>
                                         </a>
                                 </tr>
                             <?php
