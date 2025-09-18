@@ -10,10 +10,11 @@
             $dni = $_POST['DNI'];
             $email = $_POST['Email'];
             $date= $_POST['Date'];
-
-            //Verificar que el DNI no se repita
-            $check_dni = $conn->query("SELECT us_dni FROM persona WHERE us_dni = '$dni' LIMIT 1");
-            if($check_dni->num_rows > 0){
+           
+            //Verificar que el DNI no se repita con PDO para evitar inyección SQL
+            $check_dni = $pdo->prepare("SELECT us_dni FROM persona WHERE us_dni LIKE ? LIMIT 1");
+            $check_dni->execute(["%" . $dni . "%"]);
+            if($check_dni->rowCount() > 0){
                 echo "<script>
                     alert('⚠️ El DNI ya se encuentra registrado. ⚠️');
                     window.location = 'index.php';
