@@ -15,7 +15,7 @@
             $check_dni = $conn->query("SELECT us_dni FROM persona WHERE us_dni = '$dni' LIMIT 1");
             if($check_dni->num_rows > 0){
                 echo "<script>
-                    alert('⚠️ El DNI ya está registrado.');
+                    alert('⚠️ El DNI ya se encuentra registrado. ⚠️');
                     window.location = 'index.php';
                   </script>";
                 exit;
