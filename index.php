@@ -7,7 +7,6 @@
     
     <!-- Link DataTables -->
     <link rel="stylesheet" href="https://cdn.datatables.net/2.3.4/css/dataTables.dataTables.min.css">
-    <script src="https://cdn.datatables.net/2.3.4/js/dataTables.min.js"></script>
     
     <!-- Link FontAwesome-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -24,7 +23,7 @@
         </nav>
 
         <!-- FORMULARIO DE REGISTRO DE PERSONA -->
-        <form class="col-3 p-4 bg-light border border-2 rounded" method="post">
+        <form class="col-3 p-4 bg-light border border-2 rounded" method="POST">
             <?php //Incluimos la conexión a la base de datos y el controlador que registra y elimina a la persona para validar los campos del formulario
                 include('model/connect.php');
                 include('controller/controller_register_person.php');
@@ -64,7 +63,7 @@
         <div class="col-9 p-2">
            
             <!-- BUSCADOR DE REGISTROS -->
-            <form action="" method="post" role="search" class="d-flex mb-3">
+            <form action="" method="POST" role="search" class="d-flex mb-3">
                 
                 <input type="text" placeholder="Buscar" id="search" name="search" class="form-control me-2 w-25">
                 <button type="submit" class="btn btn-primary" name="btndate"><i class="fa-solid fa-magnifying-glass"></i></button>
@@ -85,39 +84,74 @@
                     <th scope="col">Acciones</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="myTableBody">
 
                     <!-- Incluimos el controlador que carga los datos en la tabla -->    
-                    <?php include('controller/controller_load.php'); ?>
+                    <?php //include('controller/controller_load.php'); ?>
 
                 </tbody>
             </table>
 
-                <script>
-                    //Llamamos a la función que carga los datos en la tabla
-                    searchTable();
-                    document.getElementById("search").addEveentListener("keyup", searchTable);
-
-                    //Script para el buscador de la tabla
-                    function searchTable(){
-                        let input = document.getElementById('search').value;
-                        let content =  document.getElemetnById('myTable');
-                        let url = "controller/controller_load.php";
-                        let formData = new FormData();
-                        formData.append('search', input);
-
-                        fetch(url, {
-                            method: 'POST',
-                            body: formData
-                            }
-                        ).then(response=>response.json()).then(data => {
-                            content.innerHTML = data;
-                        }).catch(err => console.log(err));
-                    }
-                </script>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdn.datatables.net/2.3.4/js/dataTables.dataTables.min.js"></script>
+
+    <script>
+    // Ejecuta al inicio y al escribir en el input
+    searchTable();
+    document.getElementById("search").addEventListener("keyup", searchTable);
+
+    // Script buscador dinámico
+    function searchTable() {
+        let input = document.getElementById('search').value;
+        let content = document.getElementById('myTableBody'); // 👈 mejor usar <tbody>
+        let url = "controller/controller_load.php";
+        let formData = new FormData();
+        formData.append('search', input);
+
+        fetch(url, {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json()) // servidor responde JSON
+        .then(data => {
+            // Limpiar tabla antes de agregar nuevos resultados
+            content.innerHTML = "";
+
+            // Si no hay resultados
+            if (data.length === 0) {
+                content.innerHTML = "<tr><td colspan='3'>No se encontraron resultados</td></tr>";
+                return;
+            }
+
+            // Recorrer resultados y construir filas
+            data.forEach(row => {
+                let tr = `    
+                    <tr>
+                        <td>${row.us_id}</td>
+                        <td>${row.us_first_name}</td>
+                        <td>${row.us_last_name}</td>
+                        <td>${row.us_dni}</td>
+                        <td>${row.us_email}</td>
+                        <td>${row.us_date}</td>
+                        <td>
+                            <a href="modify_person.php?id=${row.us_id}" class="btn btn-warning"><i class="fa-solid fa-user-pen"></i></a>
+                            <a href="controller/controller_delete_person.php?id=${row.us_id}" 
+                                onclick="return confirm('¿Estás seguro de eliminar este registro?');"
+                                class="btn btn-danger">
+                                <i class="fa-solid fa-user-minus"></i>
+                            </a>
+                    </tr>
+                `;
+                content.innerHTML += tr;
+            });
+        })
+        .catch(err => console.error("Error:", err));
+    }
+    </script>
+
 </body>
 </html>
